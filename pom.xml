@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.klyuchnikov</groupId>
+    <artifactId>sharilanekgm</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>sharilanekgm</name>
+    <description>UI-автотесты регистрации на sharelane.com: Selenium WebDriver 4 + TestNG, паттерн Page Object</description>
+    <url>https://github.com/georgiikluchnikov-a11y/sharilanekgm</url>
+
+    <properties>
+        <!-- release вместо source/target: код собирается под JDK 17 и запускается на 17+ -->
+        <maven.compiler.release>17</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <selenium.version>4.49.0</selenium.version>
+        <testng.version>7.12.0</testng.version>
+        <webdrivermanager.version>5.9.2</webdrivermanager.version>
+        <slf4j.version>2.0.13</slf4j.version>
+        <headless>false</headless>
+    </properties>
+
+    <dependencies>
+        <!-- Selenium Java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- WebDriverManager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
+
+        <!-- SLF4J Logger -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.4</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <!-- запуск без графического интерфейса: mvn test -Dheadless=true -->
+                        <headless>${headless}</headless>
+                        <!-- драйверы складываем в target, чтобы не зависеть от прав в домашнем каталоге -->
+                        <wdm.cachePath>${project.build.directory}/wdm-cache</wdm.cachePath>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
